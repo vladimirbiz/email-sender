@@ -37,3 +37,4 @@ C:\Users\38978\Desktop\email-sender\email-sender\bin\Debug\net8.0\MailKit.dll
 C:\Users\38978\Desktop\email-sender\email-sender\bin\Debug\net8.0\MimeKit.dll
 C:\Users\38978\Desktop\email-sender\email-sender\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\38978\Desktop\email-sender\email-sender\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\38978\Desktop\email-sender\email-sender\obj\Debug\net8.0\email-sender.sourcelink.json

@@ -29,16 +29,6 @@ public class EmailSender
 
         var bodyBuilder = new BodyBuilder { HtmlBody = body };
 
-        // Attach the image (removed ContentTransferEncoding)
-        var imagePath = "signature.png";
-        var image = new MimePart("image", "png")
-        {
-            Content = new MimeContent(File.OpenRead(imagePath)),
-            ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
-            FileName = Path.GetFileName(imagePath)
-        };
-        bodyBuilder.Attachments.Add(image);
-
         // Assign the body to the email message
         message.Body = bodyBuilder.ToMessageBody();
 
@@ -75,63 +65,74 @@ public class EmailSender
             case 1:
                 body = @"
                 Hi,<br><br>
-                I looked at your business and I can see that you are doing an amazing job. But I noticed that you don't have social media accounts linked on your website.<br>
-                If you want, I can help you set that up for free and also tell you about some other improvements that can be made.<br>
-                Feel free to schedule a call with me and let's talk more :) <br>
-                <a href='https://calendly.com/tasevskimarketingagency/intro'>Here is a link to my Calendar</a> <br><br>
+                I looked at your studio and you are doing an amazing job. But I noticed that you don't have social media accounts linked on your website.<br>
+                I can help you set that up and also tell you about some other improvements that can be made.<br>
+                If you are interested, let's talk more :) <br>
+                <a href='https://tasevskimarketingagency.com'>Here is a link to my agency's website</a> <br><br>
                 Best Regards,<br>
                 Vladimir";
                 break;
             case 2:
                 body = @"
                 Hi,<br><br>
-                I looked at your business and I can see that you are doing an amazing job. But I noticed that you don't have an Instagram account linked on your website.<br>
-                If you want, I can help you set that up for free and also tell you about some other improvements that can be made.<br>
-                Feel free to schedule a call with me and let's talk more :) <br>
-                <a href='https://calendly.com/tasevskimarketingagency/intro'>Here is a link to my Calendar</a> <br><br>
+                I looked at your studio and you are doing an amazing job. But I noticed that your Instagram account isn't linked on your website.<br>
+                I can help you set that up and also tell you about some other improvements that can be made.<br>
+                If you want, let's talk more :) <br>
+                <a href='https://tasevskimarketingagency.com'>Here is a link to my agency's website</a> <br><br>
                 Best Regards,<br>
                 Vladimir";
                 break;
             case 3:
                 body = @"
                 Hi,<br><br>
-                I looked at your business and I can see that you are doing an amazing job. But I noticed that you don't have a Facebook account linked on your website.<br>
-                If you want, I can help you set that up for free and also tell you about some other improvements that can be made.<br>
-                Feel free to schedule a call with me and let's talk more :) <br>
-                <a href='https://calendly.com/tasevskimarketingagency/intro'>Here is a link to my Calendar</a> <br><br>
+                I looked at your studio and you are doing an amazing job. But I noticed that you don't have a Facebook account linked on your website.<br>
+                If you want, I can help you set that up and I can also tell you about some other improvements that can be made.<br>
+                If you want, let's talk more :) <br>
+                <a href='https://tasevskimarketingagency.com'>Here is a link to my agency's website</a> <br><br>
                 Best Regards,<br>
                 Vladimir";
                 break;
             case 4:
                 body = $@"
                 Hi,<br><br>
-                I looked at your business and I can see that you are doing an amazing job. But I noticed that you have {obj.Reviews} reviews on Google :(<br>
+                I looked at your studio and you are doing an amazing job. But I noticed that you have {obj.Reviews} reviews on Google :(<br>
                 I work with businesses just like yours helping them get more 5* reviews.<br>
                 If you want, I can help you set that up for free and also tell you about some other improvements that can be made.<br>
-                Feel free to schedule a call with me and let's talk more :) <br>
-                <a href='https://calendly.com/tasevskimarketingagency/intro'>Here is a link to my Calendar</a> <br><br>
+                If you want, let's talk more :) <br>
+                <a href='https://tasevskimarketingagency.com'>Here is a link to my agency's website</a> <br><br>
                 Best Regards,<br>
                 Vladimir";
                 break;
             case 5:
                 body = $@"
                 Hi,<br><br>
-                I looked at your business and I can see that you are doing an amazing job. But I noticed that your average rating on Google is {obj.Avg_Review} :(<br>
+                I looked at your studio and you are doing an amazing job. But I noticed that your average rating on Google is {obj.Avg_Review} :(<br>
                 I work with businesses just like yours helping them get more 5* reviews.<br>
-                If you want, I can help you set that up for free and also tell you about some other improvements that can be made.<br>
-                Feel free to schedule a call with me and let's talk more :) <br>
-                <a href='https://calendly.com/tasevskimarketingagency/intro'>Here is a link to my Calendar</a> <br><br>
+                I can help you set that up and also tell you about some other improvements that can be made.<br>
+                If you want, let's talk more :) <br>
+                <a href='https://tasevskimarketingagency.com'>Here is a link to my agency's website</a> <br><br>
                 Best Regards,<br>
                 Vladimir";
                 break;
-            default:
+            case 6:
                 body = @"
                 Hi,<br><br>
-                I looked at your business and I can see that you are doing an amazing job. But I noticed that your website could use an update.<br>
+                I looked at your studio and you are doing an amazing job. But I noticed that your website could use an update.<br>
                 I work with businesses just like yours helping them build an amazing online presence.<br>
                 If you want, let's get on a call so that I can tell you more about my ideas and if it makes sense we might end up working together.<br>
-                Feel free to schedule a call with me and let's talk more :) <br>
-                <a href='https://calendly.com/tasevskimarketingagency/intro'>Here is a link to my Calendar</a> <br><br>
+                If you want, let's talk more :) <br>
+                <a href='https://tasevskimarketingagency.com'>Here is a link to my agency's website</a> <br><br>
+                Best Regards,<br>
+                Vladimir";
+                break;
+            case 7:
+                body = @"
+                Hi,<br><br>
+                
+                I looked at your business and you are doing an amazing job. But I noticed that you don't have a website, so I made one for you.<br>
+                If that is something that you want to check out, lets book a meeting so that I can show it to you.<br>
+                If you decide that you don't want it, it's not a problem.<br>
+                <a href='https://tasevskimarketingagency.com'>Here is a link to my agency's website</a> <br><br>
                 Best Regards,<br>
                 Vladimir";
                 break;
