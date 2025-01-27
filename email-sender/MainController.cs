@@ -17,6 +17,14 @@ namespace MyApiApp.Controllers
             //get info about business
 
             Business business = new Business("Tasevski Marketing", "", "vladimirtasevski99@gmail.com", 21, 4.4);
+///////////////////////////////////////////////////////////////////////
+
+
+            Business2 x = new Business2();
+            await BusinessService.ProcessCsv("path", 1, x);
+
+
+/////////////////////////////////////////////////////////////////////////
 
             //see if business has website
             if (business.Email != "" && (business.Reviews < 20 || business.Avg_Review < 4.4))
@@ -35,7 +43,7 @@ namespace MyApiApp.Controllers
                 if (business.Website != "")
                 {
                     //scrape it
-                    await WebScraper.ScrapeAsync(business);
+                    await Scraper.ScrapeAsync(business);
                     if(business.Email != null){
                     if (business.hasFb == false && business.hasInsta == false)
                     {

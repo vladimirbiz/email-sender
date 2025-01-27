@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Linq;
 
-public class WebScraper
+public class Scraper
 {
     private static HashSet<string> visitedUrls = new HashSet<string>();
 

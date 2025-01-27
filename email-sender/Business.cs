@@ -9,6 +9,7 @@
         public bool hasInsta {get;set;}
         public bool hasFb{get;set;}
 
+
         public Business(string Name, string Website, string Email, int Reviews, double Avg_Review){
             this.Name = Name;
             this.Website = Website;
