@@ -7,69 +7,76 @@ using System.Threading.Tasks;
 
 public class BusinessService
 {
-
-    public static async 
-    Task
-ProcessCsv(string csvFilePath, int index, Business x)
+    public static async Task ProcessCsv(string csvFilePath, int index, Business x)
 {
+    Console.WriteLine("In ProcessCsv");  // Confirm the method is being called
+    
+    if (!File.Exists(csvFilePath))
+    {
+        Console.WriteLine($"Error: The file at path {csvFilePath} does not exist.");
+        return;  // Exit if the file doesn't exist
+    }
+
     var rowList = new List<Business>();
     var rows = new List<string[]>();
 
-    using (var reader = new StreamReader(csvFilePath))
-    using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+    try
     {
-        var records = csv.GetRecords<dynamic>().ToList();
-        
-        // Iterate through each record
-        foreach (var (row, i) in records.Select((value, i) => (value, i)))
+        using (var reader = new StreamReader(csvFilePath))
+        using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
         {
-            var rowDict = row as IDictionary<string, object>;
+            var records = csv.GetRecords<dynamic>().ToList();
+            Console.WriteLine($"Number of records: {records.Count}");
 
-            if (rowDict == null) continue; // Skip invalid rows
-
-            // Safely retrieve values and handle nulls/empty strings
-            var website = rowDict.ContainsKey("Website") ? rowDict["Website"]?.ToString() : null;
-            var email = rowDict.ContainsKey("Email") ? rowDict["Email"]?.ToString() : null;
-            var instagramStatus = rowDict.ContainsKey("Instagram") ? rowDict["Instagram"]?.ToString() : "False";
-            var facebookStatus = rowDict.ContainsKey("Facebook") ? rowDict["Facebook"]?.ToString() : "False";
-
-            // Parsing reviews and average rating, ensuring safe conversion
-            int reviews = 0;
-            if (rowDict.ContainsKey("Google Reviews") && int.TryParse(rowDict["Google Reviews"]?.ToString(), out var parsedReviews))
+            foreach (var (row, i) in records.Select((value, i) => (value, i)))
             {
-                reviews = parsedReviews;
-            }
+                Console.WriteLine($"Processing row {i}...");  // Debug row index
 
-            double avgReview = 0;
-            if (rowDict.ContainsKey("Rating") && double.TryParse(rowDict["Rating"]?.ToString(), out var parsedAvgReview))
-            {
-                avgReview = parsedAvgReview;
-            }
+                var rowDict = row as IDictionary<string, object>;
 
-            if (i == 0) // header row
-            {
-                rows.Add(rowDict.Values.Cast<string>().ToArray());
-            }
+                if (rowDict == null) continue; // Skip invalid rows
 
-            if (i == index)
-            {
+                var website = rowDict.ContainsKey("Website") ? rowDict["Website"]?.ToString() : null;
+                var email = rowDict.ContainsKey("Email") ? rowDict["Email"]?.ToString() : null;
+                var instagramStatus = rowDict.ContainsKey("Instagram") ? rowDict["Instagram"]?.ToString() : "False";
+                var facebookStatus = rowDict.ContainsKey("Facebook") ? rowDict["Facebook"]?.ToString() : "False";
 
-                // Create Business object and add it to the list
-                var business = new Business(
-                    rowDict["ID"]?.ToString(), // Adjust column name accordingly
-                    reviews,
-                    avgReview,
-                    website,
-                    email,
-                    instagramStatus,
-                    facebookStatus
-                );
+                int reviews = 0;
+                if (rowDict.ContainsKey("Google Reviews") && int.TryParse(rowDict["Google Reviews"]?.ToString(), out var parsedReviews))
+                {
+                    reviews = parsedReviews;
+                }
 
-                x = business;
+                double avgReview = 0;
+                if (rowDict.ContainsKey("Rating") && double.TryParse(rowDict["Rating"]?.ToString(), out var parsedAvgReview))
+                {
+                    avgReview = parsedAvgReview;
+                }
+
+                if (i == 0) // header row
+                {
+                    rows.Add(rowDict.Values.Cast<string>().ToArray());
+                }
+
+                if (i == index)
+                {
+                    Console.WriteLine("In ProcessCsv3");  // Check if this is reached
+                    x.Reviews = reviews;
+                    x.Avg_Review = avgReview;
+                    x.Website = website;
+                    x.Email = email;
+                    x.Instagram = instagramStatus;
+                    x.Facebook = facebookStatus;
+                }
             }
         }
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+    }
 }
+
 
 
 

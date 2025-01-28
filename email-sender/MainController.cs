@@ -19,10 +19,15 @@ namespace MyApiApp.Controllers
             Business business = new Business();
 ///////////////////////////////////////////////////////////////////////
 
-            await BusinessService.ProcessCsv("./test.csv", 1, business);
+            await BusinessService.ProcessCsv("./test.csv", 2, business);
 
 
 /////////////////////////////////////////////////////////////////////////
+            
+            Console.WriteLine("Business INITIATED");
+            Console.WriteLine(business);
+            Console.WriteLine();
+
 
             //see if business has website
             if (business.Email != "" && (business.Reviews < 20 || business.Avg_Review < 4.4))

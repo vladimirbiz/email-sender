@@ -18,6 +18,10 @@ public class EmailSender
 
     public static void SendEmail(Business obj, int criteria)
     {
+        Console.WriteLine();
+        Console.WriteLine(obj);
+        Console.WriteLine("This is the meail" + obj.Email);
+        Console.WriteLine();
         // Create the email message
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress("Vladimir", username));

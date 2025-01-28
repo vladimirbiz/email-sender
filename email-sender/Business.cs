@@ -29,4 +29,16 @@
         Facebook = facebook;
     }
         public Business(){}
+
+        public override string ToString()
+    {
+        return $"Business Name: {Name}\n" +
+               $"Website: {Website}\n" +
+               $"Email: {Email}\n" +
+               $"Reviews: {Reviews}\n" +
+               $"Average Rating: {Avg_Review:F1}\n" +
+               $"ID: {Id}\n" +
+               $"Instagram: {Instagram}\n" +
+               $"Facebook: {Facebook}";
+    }
     }

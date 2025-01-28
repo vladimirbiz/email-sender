@@ -72,7 +72,7 @@ public class Scraper
     Task
 ScrapeAsync(Business business)
 {
-    var innerUrls = await InnerUrlsAsync(business.Website, 2);
+    var innerUrls = await InnerUrlsAsync(business.Website, 1);
     Console.WriteLine($"URLs: {string.Join(", ", innerUrls)}");
 
     bool hasInsta = false;
