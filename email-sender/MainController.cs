@@ -16,12 +16,10 @@ namespace MyApiApp.Controllers
             int criteria;
             //get info about business
 
-            Business business = new Business("Tasevski Marketing", "", "vladimirtasevski99@gmail.com", 21, 4.4);
+            Business business = new Business();
 ///////////////////////////////////////////////////////////////////////
 
-
-            Business2 x = new Business2();
-            await BusinessService.ProcessCsv("path", 1, x);
+            await BusinessService.ProcessCsv("./test.csv", 1, business);
 
 
 /////////////////////////////////////////////////////////////////////////
@@ -45,7 +43,7 @@ namespace MyApiApp.Controllers
                     //scrape it
                     await Scraper.ScrapeAsync(business);
                     if(business.Email != null){
-                    if (business.hasFb == false && business.hasInsta == false)
+                    if (business.Facebook == "" && business.Instagram == "")
                     {
                         criteria = 1;
                     }
@@ -53,9 +51,9 @@ namespace MyApiApp.Controllers
                         criteria = 4;
                     else if(business.Avg_Review < 4.3)
                         criteria = 5;
-                    else if (business.hasFb == false)
+                    else if (business.Facebook == "")
                         criteria = 2;
-                    else if (business.hasInsta == false)
+                    else if (business.Instagram == "")
                         criteria = 3;
                     else criteria = 6;
                     EmailSender.SendEmail(business, criteria);

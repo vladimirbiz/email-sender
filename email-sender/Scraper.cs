@@ -92,8 +92,10 @@ ScrapeAsync(Business business)
         if(hasFbFromUrl)
         hasFb = true;
     }
-    business.hasFb = hasFb;
-    business.hasInsta = hasInsta;
+    if(hasFb)
+    business.Facebook = "facebook";
+    if(hasInsta)
+    business.Instagram = "instagram";
     if(business.Email == "")
     business.Email = emails.ToArray()[0];
 }

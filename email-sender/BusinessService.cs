@@ -10,73 +10,68 @@ public class BusinessService
 
     public static async 
     Task
-ProcessCsv(string csvFilePath, int index, Business2 x)
+ProcessCsv(string csvFilePath, int index, Business x)
+{
+    var rowList = new List<Business>();
+    var rows = new List<string[]>();
+
+    using (var reader = new StreamReader(csvFilePath))
+    using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
     {
-        var rowList = new List<Business2>();
-        var rows = new List<string[]>();
-
-        using (var reader = new StreamReader(csvFilePath))
-        using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+        var records = csv.GetRecords<dynamic>().ToList();
+        
+        // Iterate through each record
+        foreach (var (row, i) in records.Select((value, i) => (value, i)))
         {
-            var records = csv.GetRecords<dynamic>().ToList();
-            
-            // Iterate through each record
-            foreach (var (row, i) in records.Select((value, i) => (value, i)))
+            var rowDict = row as IDictionary<string, object>;
+
+            if (rowDict == null) continue; // Skip invalid rows
+
+            // Safely retrieve values and handle nulls/empty strings
+            var website = rowDict.ContainsKey("Website") ? rowDict["Website"]?.ToString() : null;
+            var email = rowDict.ContainsKey("Email") ? rowDict["Email"]?.ToString() : null;
+            var instagramStatus = rowDict.ContainsKey("Instagram") ? rowDict["Instagram"]?.ToString() : "False";
+            var facebookStatus = rowDict.ContainsKey("Facebook") ? rowDict["Facebook"]?.ToString() : "False";
+
+            // Parsing reviews and average rating, ensuring safe conversion
+            int reviews = 0;
+            if (rowDict.ContainsKey("Google Reviews") && int.TryParse(rowDict["Google Reviews"]?.ToString(), out var parsedReviews))
             {
-                var rowArray = row.ToString().Split(',');
+                reviews = parsedReviews;
+            }
 
-                if (i == 0) // header row
-                {
-                    rows.Add(rowArray);
-                }
+            double avgReview = 0;
+            if (rowDict.ContainsKey("Rating") && double.TryParse(rowDict["Rating"]?.ToString(), out var parsedAvgReview))
+            {
+                avgReview = parsedAvgReview;
+            }
 
-                if (i == index)
-                {
-                    // Logic to scrape data when row at specified index needs to be processed
-                    if (!string.IsNullOrEmpty(rowArray[14]) && 
-                        (string.IsNullOrEmpty(rowArray[26]) || string.IsNullOrEmpty(rowArray[25]) || string.IsNullOrEmpty(rowArray[23])))
-                    {
-                        // Scrape data
-                        var scrapeResults = await Scraper.ScrapeAsync(rowArray[14]);
-                        var emailScrape = scrapeResults.email;
-                        var instagramScrape = scrapeResults.instagram;
-                        var facebookScrape = scrapeResults.facebook;
+            if (i == 0) // header row
+            {
+                rows.Add(rowDict.Values.Cast<string>().ToArray());
+            }
 
-                        // Update social media scrape status
-                        var instagramStatusScraped = instagramScrape ? "True" : "False";
-                        var facebookStatusScraped = facebookScrape ? "True" : "False";
+            if (i == index)
+            {
 
-                        rowArray[23] = emailScrape; // Update email in the row
-                        rows.Add(rowArray); // Add updated row
-                    }
-                    else
-                    {
-                        rows.Add(rowArray); // If no scraping needed, just add the original row
-                    }
+                // Create Business object and add it to the list
+                var business = new Business(
+                    rowDict["ID"]?.ToString(), // Adjust column name accordingly
+                    reviews,
+                    avgReview,
+                    website,
+                    email,
+                    instagramStatus,
+                    facebookStatus
+                );
 
-                    // Determine the status for social media
-                    var email = rowArray[23];
-                    var instagramStatus = string.IsNullOrEmpty(rowArray[26]) ? "False" : rowArray[26];
-                    var facebookStatus = string.IsNullOrEmpty(rowArray[25]) ? "False" : rowArray[25];
-
-                    if (string.IsNullOrEmpty(rowArray[23])) email = rowArray[23]; // Update email if empty
-
-                    // Create Business object and add it to the list
-                    var business = new Business2(
-                        rowArray[0],  // ID
-                        rowArray[9],   // Google Reviews
-                        rowArray[8],   // Rating
-                        rowArray[14],  // Website
-                        email,         // Email
-                        instagramStatus, // Instagram status
-                        facebookStatus  // Facebook status
-                    );
-
-                    x = business;
-                }
+                x = business;
             }
         }
     }
+}
+
+
 
     // Determines criteria based on the business row and social media status
     private int DetermineCriteria(string[] row, string instagram, string facebook)
