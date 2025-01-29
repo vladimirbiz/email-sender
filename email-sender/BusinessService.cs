@@ -41,14 +41,22 @@ public class BusinessService
                 var instagramStatus = rowDict.ContainsKey("Instagram") ? rowDict["Instagram"]?.ToString() : "False";
                 var facebookStatus = rowDict.ContainsKey("Facebook") ? rowDict["Facebook"]?.ToString() : "False";
 
+                string Name = "";
+                if (rowDict.ContainsKey("Name"))
+                {
+                    Name = rowDict["Name"].ToString();
+                    Console.WriteLine($"Name found: {Name}"); // Debug line
+
+                }
+
                 int reviews = 0;
-                if (rowDict.ContainsKey("Google Reviews") && int.TryParse(rowDict["Google Reviews"]?.ToString(), out var parsedReviews))
+                if (rowDict.ContainsKey("Review Count") && int.TryParse(rowDict["Review Count"]?.ToString(), out var parsedReviews))
                 {
                     reviews = parsedReviews;
                 }
 
                 double avgReview = 0;
-                if (rowDict.ContainsKey("Rating") && double.TryParse(rowDict["Rating"]?.ToString(), out var parsedAvgReview))
+                if (rowDict.ContainsKey("Average Rating") && double.TryParse(rowDict["Average Rating"]?.ToString(), out var parsedAvgReview))
                 {
                     avgReview = parsedAvgReview;
                 }
@@ -61,12 +69,16 @@ public class BusinessService
                 if (i == index)
                 {
                     Console.WriteLine("In ProcessCsv3");  // Check if this is reached
+                    Console.WriteLine(reviews);  // Check if this is reached
+                    Console.WriteLine(avgReview);  // Check if this is reached
+                    Console.WriteLine();  // Check if this is reached
                     x.Reviews = reviews;
                     x.Avg_Review = avgReview;
                     x.Website = website;
                     x.Email = email;
                     x.Instagram = instagramStatus;
                     x.Facebook = facebookStatus;
+                    x.Name = Name;
                 }
             }
         }

@@ -19,7 +19,7 @@ namespace MyApiApp.Controllers
             Business business = new Business();
 ///////////////////////////////////////////////////////////////////////
 
-            await BusinessService.ProcessCsv("./test.csv", 2, business);
+            await BusinessService.ProcessCsv("/app/test.csv", 2, business);
 
 
 /////////////////////////////////////////////////////////////////////////

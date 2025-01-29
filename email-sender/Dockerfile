@@ -6,7 +6,7 @@ WORKDIR /src
 COPY ["email-sender.csproj", "./"]
 RUN dotnet restore "email-sender.csproj"
 
-# Copy the rest of the source code
+# Copy the rest of the source code (this includes MainController.cs and other C# files)
 COPY . .
 
 # Build the app
@@ -21,10 +21,14 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 
-# Copy the app from the publish stage
+# Copy the app from the publish stage (compiled binaries)
 COPY --from=publish /app/publish .
 
-# Copy the test.csv file to the container
+# Copy the test.csv file to the container (ensure it's in the /app directory)
 COPY test.csv /app/test.csv  
+
+COPY MainController.cs /app/MainController.cs 
+
 # Set the entrypoint to run the app
 ENTRYPOINT ["dotnet", "email-sender.dll"]
+
