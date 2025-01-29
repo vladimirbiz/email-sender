@@ -1,38 +1,30 @@
-# Use the official image as the base image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-
-# Set the working directory inside the container
-WORKDIR /app
-
-# Expose the port your application will run on (default is 80 for web apps)
-EXPOSE 80
-
-# Use the SDK image to build the app (use .NET 8 SDK)
+# Use the .NET 8 SDK for building the application
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-
-# Set the working directory inside the container
 WORKDIR /src
 
-# Copy the project file and restore the dependencies
+# Copy the project file and restore dependencies
 COPY ["email-sender.csproj", "./"]
-
-# Restore the NuGet packages
 RUN dotnet restore "email-sender.csproj"
 
-# Copy the rest of the files and build the application
+# Copy the rest of the source code
 COPY . .
-WORKDIR "/src"
+
+# Build the app
 RUN dotnet build "email-sender.csproj" -c Release -o /app/build
 
 # Publish the app to the /app/publish directory
+FROM build AS publish
 RUN dotnet publish "email-sender.csproj" -c Release -o /app/publish
 
-# Set the working directory for the runtime
-FROM base AS final
+# Use the .NET 8 runtime image to run the app
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
+EXPOSE 80
 
-# Copy the published files from the build image
-COPY --from=build /app/publish .
+# Copy the app from the publish stage
+COPY --from=publish /app/publish .
 
-# Set the entry point to run your application
+# Copy the test.csv file to the container
+COPY test.csv /app/test.csv  
+# Set the entrypoint to run the app
 ENTRYPOINT ["dotnet", "email-sender.dll"]
