@@ -27,11 +27,6 @@ app.MapPost("/sendEmail", (Business business) =>
     {
         return Results.BadRequest("Business data is missing.");
     }
-
-    // Email subject and body could be dynamically created based on the business data
-    string subject = $"Hello from {business.Name}";
-    string body = $"Dear {business.Name},\n\nThank you for contacting us. Your website is {business.Website}. We look forward to working with you.\n\nBest regards,\nYour Company";
-
     return Results.Ok();
 });
 

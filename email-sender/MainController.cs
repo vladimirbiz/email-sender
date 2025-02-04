@@ -27,50 +27,33 @@ namespace MyApiApp.Controllers
             Console.WriteLine("Business INITIATED");
             Console.WriteLine(business);
             Console.WriteLine();
-
-
-            //see if business has website
-            if (business.Email != "" && (business.Reviews < 20 || business.Avg_Review < 4.4))
+            //ako ima vebsajt -> scrape -> ako ima email najdi criteria i send 
+            if (business.Website != "" && business.Website != null)
             {
-                if (business.Reviews < 20)
-                    criteria = 4;
-                else
-                    criteria = 5;
-
-                EmailSender.SendEmail(business, criteria);
-                return Ok($"Emails sent for {business.Name} to {business.Email}.");
-                //---------------------> sending logic
-            }
-            else
-            {
-                if (business.Website != "")
-                {
-                    //scrape it
                     await Scraper.ScrapeAsync(business);
-                    if(business.Email != null){
-                    if (business.Facebook == "" && business.Instagram == "")
-                    {
-                        criteria = 1;
-                    }
+                    if(business.Email != null && business.Email != "")
+                {
+                    if (business.Facebook == "" || business.Instagram == "")
+                        {
+                            criteria = 1;
+                        }
                     else if (business.Reviews < 20)
-                        criteria = 4;
-                    else if(business.Avg_Review < 4.3)
-                        criteria = 5;
-                    else if (business.Facebook == "")
                         criteria = 2;
-                    else if (business.Instagram == "")
+                    else if(business.Avg_Review < 4.3)
                         criteria = 3;
-                    else criteria = 6;
+                    else criteria = 1;
                     EmailSender.SendEmail(business, criteria);
                     return Ok($"Emails sent for {business.Name} to {business.Email}.");
                     // ----------------------> sending logic
                 }
-                else{
+                else
+                {
                      return Ok($"No email found for {business.Name} at {business.Website}.");
                 }
-                }
-                else if (business.Email != ""){
-                    criteria = 7;
+            }
+                //ako nema websajt ama ima email -> send
+                else if (business.Email != "" && business.Email != null){
+                    criteria = 4;
                     EmailSender.SendEmail(business, criteria);
                     return Ok($"Emails sent for {business.Name} to {business.Email}.");
                     // -----------------------> sending logic
@@ -78,7 +61,6 @@ namespace MyApiApp.Controllers
                 else{
                     return Ok($"No website or email found for {business.Name}.");
                 }
-            }
         }
     }
 }
