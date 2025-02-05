@@ -71,7 +71,7 @@ public class EmailSender
                 Hello,<br><br>
                 I stumbled across your work and I saw that you are doing a great job. But I saw that there are some game changing improvements that can be made regarding your online presence.<br>
                 If you are interested in hearing me out, let's talk :) <br>
-                <a href='https://tasevskimarketingagency.com'>Here is a link to my agency's website</a> <br><br>
+                <a href='https://tasevskimarketing.com'>Here is the link to my agency's website</a> <br><br>
                 Best Regards,<br>
                 Vladimir";
                 break;
@@ -82,7 +82,7 @@ public class EmailSender
                 A big one is that you only have {obj.Reviews} reviews on Google.<br>
                 We can help you implement a process that gets you hundreds of 5* reviews.<br>
                 If you are interested in hearing me out, let's talk :) <br>
-                <a href='https://tasevskimarketingagency.com'>Here is a link to my agency's website</a> <br><br>
+                <a href='https://tasevskimarketing.com'>Here is the link to my agency's website</a> <br><br>
                 Best Regards,<br>
                 Vladimir";
                 break;
@@ -93,7 +93,7 @@ public class EmailSender
                 A big one is that your average rating on Google is {obj.Avg_Review}.<br>
                 We can help you implement a process that gets you hundreds of 5* reviews.<br>
                 If you are interested in hearing me out, let's talk :) <br>
-                <a href='https://tasevskimarketingagency.com'>Here is a link to my agency's website</a> <br><br>
+                <a href='https://tasevskimarketing.com'>Here is the link to my agency's website</a> <br><br>
                 Best Regards,<br>
                 Vladimir";
                 break;
@@ -104,7 +104,7 @@ public class EmailSender
                 I stumbled across your work and I saw that you are doing a great job. But I noticed that you don't have a website, and having one could be a game changer.<br>
                 If that is something that interests you, lets book a meeting where I can show you some designs.<br>
                 If you like a design, we can set it up for you in a day :)<br>
-                <a href='https://tasevskimarketingagency.com'>Here is a link to my agency's website</a> <br><br>
+                <a href='https://tasevskimarketing.com'>Here is the link to my agency's website</a> <br><br>
                 Best Regards,<br>
                 Vladimir";
                 break;

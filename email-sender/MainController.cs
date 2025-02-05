@@ -10,7 +10,7 @@ namespace MyApiApp.Controllers
     public class BusinessController : ControllerBase
     {
         // POST: api/business/sendEmail
-        [HttpPost("sendEmail")]
+        [HttpHead("sendEmail")]
         public async Task<ActionResult> SendEmail()
         {
             int criteria;

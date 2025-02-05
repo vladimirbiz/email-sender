@@ -17,7 +17,7 @@ class IndexDeterminer
         int hour = currentTimeInUTCPlus11.Hour;
         int minute = currentTimeInUTCPlus11.Minute;
         Console.WriteLine($"Current time: {hour:D2}:{minute:D2}");
-        int i = (hour-9) * 6 + minute/10;
+        int i = (hour) * 6 + minute/10;
         Console.WriteLine(i);
         return  i;
     }
